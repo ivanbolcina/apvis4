@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+    <gresource prefix="/">
+        <file preprocess="xml-stripblanks">glade/main_window.glade</file>
+        <file preprocess="xml-stripblanks">glade/settings.glade</file>
+    </gresource>
+    <gresource prefix="/">
+        <file>shaders/aafragment.glsl</file>
+        <file>shaders/aavertex.glsl</file>
+        <file>shaders/plainfragment.glsl</file>
+    </gresource>
+</gresources>
