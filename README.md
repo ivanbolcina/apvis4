@@ -19,5 +19,5 @@ Clone and build the project:
 
 - Start shairport-sync:
   - using pulse audio as backend
-  - with metadata provided as pipe
+  - with metadata provided as pipe on disk
 - Start this application
