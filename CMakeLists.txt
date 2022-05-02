@@ -2,9 +2,10 @@ cmake_minimum_required(VERSION 3.5)
 #other cmake files
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake )
 #remember name of theproject
-set(PROJECT_NAME apvis3)
+set(PROJECT_NAME apvis4)
 #set name of the project
 project(${PROJECT_NAME})
+
 
 #get packages
 find_package(PkgConfig REQUIRED)
@@ -31,11 +32,13 @@ include(GResource)
 gresource(${CMAKE_CURRENT_SOURCE_DIR} resources.gresource.xml
         ${CMAKE_BINARY_DIR} RESOURCE_FILE)
 
+include(sphinx)
+
 #add sources
 file(GLOB SOURCES "${PROJECT_SOURCE_DIR}/src/*.cpp" )
 
 #executable
-add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCE_FILE} )
+add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCE_FILE})
 
 #libs
 target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES})
@@ -48,3 +51,4 @@ target_link_libraries(${PROJECT_NAME} ${CONAN_LIBS})
 
 # Install the executable
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)
+

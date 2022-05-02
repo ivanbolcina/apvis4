@@ -10,9 +10,8 @@
 #include <GL/glx.h>
 #include <GL/glext.h>
 
-/**
- * Shows album art
- */
+/// Shows album art.
+/// Includes image of album art and shader effect.
 class AlbumArt{
 public:
     AlbumArt()=default;
