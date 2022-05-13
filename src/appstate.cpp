@@ -9,7 +9,7 @@ void AppState::read() {
     MetaReaderInstance.readinto(this);
 }
 
-void AppState::updateprogres() {
+void AppState::update_progres() {
     if (playing) {
         auto curr = std::chrono::system_clock::now();
         auto diff = curr - state.t_start;

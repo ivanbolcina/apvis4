@@ -1,4 +1,5 @@
 #include <iostream>
+#include <plog/Log.h>
 #include "albumart.h"
 #include "utils.h"
 
@@ -32,8 +33,7 @@ void AlbumArt::realize()
     }
     catch(const Gdk::GLError& gle)
     {
-        cerr << "An error occured making the context current during realize:" << endl;
-        cerr << gle.domain() << "-" << gle.code() << "-" << gle.what() << endl;
+        PLOG_ERROR << "An error occured making the context current during realize:"  << to_string(gle.domain()) << "-" << to_string(gle.code()) << "-" << gle.what().c_str();
     }
 }
 
@@ -53,8 +53,7 @@ void AlbumArt::unrealize()
     }
     catch(const Gdk::GLError& gle)
     {
-        cerr << "An error occured making the context current during unrealize" << endl;
-        cerr << gle.domain() << "-" << gle.code() << "-" << gle.what() << endl;
+        PLOG_ERROR << "An error occured making the context current during unrealize:" <<   to_string(gle.domain()) << "-" << to_string(gle.code()) << "-" << gle.what().c_str();
     }
 }
 
@@ -71,8 +70,7 @@ bool AlbumArt::render(const Glib::RefPtr<Gdk::GLContext>& /* context */)
     }
     catch(const Gdk::GLError& gle)
     {
-        cerr << "An error occurred in the render callback of the GLArea" << endl;
-        cerr << gle.domain() << "-" << gle.code() << "-" << gle.what() << endl;
+        PLOG_ERROR << "An error occurred in the render callback of the GLArea:"  << to_string(gle.domain()) << "-" << to_string(gle.code()) << "-" << gle.what().c_str();
         return false;
     }
 }
@@ -101,9 +99,9 @@ static GLuint create_shader(int type, const char *src)
         glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &log_len);
         string log_space(log_len+1, ' ');
         glGetShaderInfoLog(shader, log_len, nullptr, (GLchar*)log_space.c_str());
-        cerr << "Compile failure in " <<
+        PLOG_ERROR << "Compile failure in " <<
              (type == GL_VERTEX_SHADER ? "vertex" : "fragment") <<
-             " shader: " << log_space << endl;
+             " shader: " << log_space;
         glDeleteShader(shader);
         return 0;
     }
@@ -115,7 +113,7 @@ void AlbumArt::init_shaders(const std::string& vertex_path, const std::string& f
     auto vshader_bytes = Gio::Resource::lookup_data_global(vertex_path);
     if(!vshader_bytes)
     {
-        cerr << "Failed fetching vertex shader resource" << endl;
+        PLOG_ERROR << "Failed fetching vertex shader resource";
         m_Program = 0;
         return;
     }
@@ -130,7 +128,7 @@ void AlbumArt::init_shaders(const std::string& vertex_path, const std::string& f
     auto fshader_bytes = Gio::Resource::lookup_data_global(fragment_path);
     if(!fshader_bytes)
     {
-        cerr << "Failed fetching fragment shader resource" << endl;
+        PLOG_ERROR << "Failed fetching fragment shader resource";
         glDeleteShader(vertex);
         m_Program = 0;
         return;
@@ -158,7 +156,7 @@ void AlbumArt::init_shaders(const std::string& vertex_path, const std::string& f
         glGetProgramiv(m_Program, GL_INFO_LOG_LENGTH, &log_len);
         string log_space(log_len+1, ' ');
         glGetProgramInfoLog(m_Program, log_len, nullptr, (GLchar*)log_space.c_str());
-        cerr << "Linking failure: " << log_space << endl;
+        PLOG_ERROR << "Linking failure: " << log_space;
         glDeleteProgram(m_Program);
         m_Program = 0;
     }

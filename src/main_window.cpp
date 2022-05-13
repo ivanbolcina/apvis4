@@ -1,9 +1,8 @@
 #include <iostream>
 
 #include <giomm/resource.h>
-#include <epoxy/gl.h>
-#include <fstream>
-#include "albumart.h"
+//#include <epoxy/gl.h>
+#include <plog/Log.h>
 
 #include "main_window.h"
 #include "appstate.h"
@@ -84,13 +83,13 @@ void MainWindow::update_image() {
     auto loader = gdk_pixbuf_loader_new();
     gdk_pixbuf_loader_write(loader, state.image.data(), size, &error);
     if (error != NULL) {
-        std::cout << error->message << std::endl;
+        PLOG_ERROR << error->message;
         g_clear_error(&error);
         return;
     }
     gdk_pixbuf_loader_close(loader, &error);
     if (error != NULL) {
-        std::cout << error->message << std::endl;
+        PLOG_ERROR << error->message;
         g_clear_error(&error);
         return;
     }
@@ -98,7 +97,7 @@ void MainWindow::update_image() {
     error = nullptr;
     gdk_pixbuf_loader_close(loader, &error);
     if (error != NULL) {
-        std::cout << error->message << std::endl;
+        PLOG_ERROR << error->message;
         g_clear_error(&error);
         return;
     }
@@ -123,7 +122,7 @@ bool MainWindow::update(int id) {
     }
     lAlbum->set_label(state.album);
     lArtist->set_label(state.artist);
-    state.updateprogres();
+    state.update_progres();
     pbProgress->set_fraction(state.progress);
     update_image();
     this->glSpectre->queue_render();

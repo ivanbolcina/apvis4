@@ -11,6 +11,8 @@
 #include <cstdlib>
 #include <chrono>
 #include <fstream>
+#include <plog/Log.h>
+
 #include "readinfo.h"
 #include "appstate.h"
 #include "utils.h"
@@ -18,7 +20,25 @@
 using json = nlohmann::json;
 using namespace std;
 
+constexpr uint32_t _mper=1836082546;
+constexpr uint32_t _mden=1835296110;
+constexpr uint32_t _prgr=1886545778;
+constexpr uint32_t _prsm=1886548845;
+constexpr uint32_t _pbeg=1885496679;
+constexpr uint32_t _pend=1885695588;
+constexpr uint32_t _abeg=1633838439;
+constexpr uint32_t _aend=1634037348;
+constexpr uint32_t _pffr=1885759090;
+constexpr uint32_t _asul=1634956652;
+constexpr uint32_t _asal=1634951532;
+constexpr uint32_t _asar=1634951538;
+constexpr uint32_t _ascm=1634952045;
+constexpr uint32_t _minm=1835626093;
+constexpr uint32_t _PICT=1346978644;
+
+
 void MetaReader::fill_from(string item, AppState *state) {
+
     uint32_t type, code, length;
     int ret = sscanf(item.c_str(), "<item><type>%8x</type><code>%8x</code><length>%u</length>", &type, &code, &length);
     if (ret == 3) {
@@ -33,7 +53,7 @@ void MetaReader::fill_from(string item, AppState *state) {
             payload = (char *) malloc(length + 1);
             if (base64_decode(base64.c_str(), base64.length(), (unsigned char *) payload, &outputlength) != 0) {
                 free(payload);
-                printf("Failed to decode it.\n");
+                PLOG_ERROR << "Failed to decode it.";
                 return;
             }
             payload[length] = 0;
@@ -41,11 +61,10 @@ void MetaReader::fill_from(string item, AppState *state) {
             payload = (char *) malloc(1);
             payload[0] = 0;
         }
-        printf("\n\ntype=%8x,code=%8x=\n", type, code);
-        if (payload != nullptr && strlen(payload) < 1000) printf("data=%s\n", payload);
-        fflush(stdout);
+        PLOG_DEBUG.printf("type=%8x,code=%8x", type, code);
+        if (payload != nullptr && strlen(payload) < 1000) { PLOG_DEBUG<<"data:"<<payload; }
         switch (code) {
-            case 'mper': {
+            case _mper: {
                 uint64_t vl = ntohl(*(uint32_t *) payload);
                 vl = vl << 32;
                 uint64_t ul = ntohl(*(uint32_t *) (payload + sizeof(uint32_t)));
@@ -53,11 +72,11 @@ void MetaReader::fill_from(string item, AppState *state) {
                 state->tmpid = vl;
             }
                 break;
-            case 'mden': {
+            case _mden: {
                 state->id = state->tmpid;
             }
                 break;
-            case 'prgr':
+            case _prgr:
                 {
                     //s,cur,end
                     string s = payload;
@@ -68,7 +87,7 @@ void MetaReader::fill_from(string item, AppState *state) {
                     int vcnt = 0;
                     while ((pos = s.find(delimiter)) != std::string::npos) {
                         token = s.substr(0, pos);
-                        std::cout << token << std::endl;
+                        PLOG_INFO << "progress token:" << token;
                         vals[vcnt++] = atoll(token.c_str()) / 44100.0;
                         s.erase(0, pos + delimiter.length());
                     }
@@ -89,42 +108,42 @@ void MetaReader::fill_from(string item, AppState *state) {
                     } else state->progress = 0.0f;
                 }
                 break;
-            case 'prsm':
+            case _prsm:
                 state->playing = true;
                 break;
-            case 'pbeg':
+            case _pbeg:
                 state->playing = true;
                 break;
-            case 'pend':
+            case _pend:
                 state->playing = false;
                 break;
-            case 'abeg':
+            case _abeg:
                 state->playing = true;
                 break;
-            case 'aend':
+            case _aend:
                 state->playing = false;
                 break;
-            case 'pffr':
+            case _pffr:
                 state->playing = true;
                 break;
-            case 'asul':
-                printf("URL: \"%s\".\n", payload);
-                fflush(stdout);
+            case _asul:
+                //printf("URL: \"%s\".\n", payload);
+                //fflush(stdout);
                 break;
-            case 'asal':
+            case _asal:
                 state->album = payload;
                 break;
-            case 'asar':
+            case _asar:
                 state->artist = payload;
                 break;
-            case 'ascm':
+            case _ascm:
                 //printf("Comment: \"%s\".\n",payload);
                 break;
-            case 'minm':
+            case _minm:
                 state->song_name = payload;
                 break;
-            case 'PICT':
-                printf("picture: \n");
+            case _PICT:
+                PLOG_INFO <<"picture";
                 fflush(stdout);
                 state->image_id++;
                 state->image.clear();
@@ -134,7 +153,6 @@ void MetaReader::fill_from(string item, AppState *state) {
         }
         free(payload);
     }
-
 }
 
 void MetaReader::read(AppState *state) {
@@ -178,8 +196,7 @@ void MetaReader::read(AppState *state) {
         }
     }
     catch (std::exception &ex) {
-        printf("error\n");
-        fflush(stdout);
+        PLOG_ERROR <<"error "<<ex.what();
     }
 }
 

@@ -11,6 +11,7 @@
 #include <pulse/pulseaudio.h>
 #include <iostream>
 #include <memory>
+#include <plog/Log.h>
 #include "vumeter.h"
 
 using namespace std;
@@ -77,7 +78,7 @@ void show_error(const char *txt, bool show_pa_error, VUMeter *vuMeter) {
     char buf[256];
     if (show_pa_error)
         snprintf(buf, sizeof(buf), "%s: %s", txt, pa_strerror(pa_context_errno(vuMeter->context)));
-    cout << buf << endl;
+    PLOG_ERROR << buf;
 }
 
 /**
@@ -116,7 +117,7 @@ static void stream_read_callback(pa_stream *s, size_t l, void *ref) {
     const void *p;
     VUMeter *vuMeter = static_cast<VUMeter *>(ref);
     if (pa_stream_peek(s, &p, &l) < 0) {
-        cout << "peek err" << endl;
+        PLOG_ERROR << "peek error";
         return;
     }
     vuMeter->pushData((const float *) p, l / sizeof(float));
@@ -127,14 +128,14 @@ static void stream_read_callback(pa_stream *s, size_t l, void *ref) {
  * Callback for getting stream state
  */
 static void stream_state_callback(pa_stream *s, void *ref) {
-    cout << "got stream callback" << endl;
+    PLOG_INFO << "got stream callback";
     VUMeter *vuMeter = static_cast<VUMeter *>(ref);
     switch (pa_stream_get_state(s)) {
         case PA_STREAM_UNCONNECTED:
         case PA_STREAM_CREATING:
             break;
         case PA_STREAM_READY:
-            cout << "stream ready" << endl;
+            PLOG_INFO <<"stream ready";
             vuMeter->add(*pa_stream_get_channel_map(s), vuMeter->device_name, vuMeter->device_description);
             latency_func(ref);
             break;
@@ -156,7 +157,7 @@ create_stream(const char *name, const char *description, const pa_sample_spec &s
     pa_sample_spec nss;
     vuMeter->device_name = strdup(name);
     vuMeter->device_description = strdup(description);
-    cout << "creating stream" << endl;
+    PLOG_INFO << "creating stream";
     nss.format = PA_SAMPLE_FLOAT32;
     nss.rate = ss.rate;
     nss.channels = ss.channels;
@@ -195,7 +196,7 @@ static void context_get_server_info_callback(pa_context *c, const pa_server_info
         show_error("No default sink set.", false, vuMeter);
         return;
     }
-    cout << si->default_sink_name << endl;
+    PLOG_INFO << "default sink name:" << si->default_sink_name;
     pa_operation_unref(
             pa_context_get_sink_info_by_name(c, si->default_sink_name, context_get_sink_info_callback, vuMeter));
 }
@@ -245,7 +246,7 @@ void VUMeter::add(const pa_channel_map &map, const char *, const char *descripti
     int n;
     for (n = 0; n < map.channels; n++) {
         snprintf(t, sizeof(t), "<b>%s</b>", pa_channel_position_to_pretty_string(map.map[n]));
-        cout << t << endl;
+        PLOG_INFO << "Channel:" <<t;
         channels.push_back(new ChannelInfo(t));
     }
     running = 1;

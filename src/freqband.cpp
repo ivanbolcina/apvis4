@@ -12,7 +12,6 @@ const double PI = 3.1415926536;
 
 unsigned int bitReverse(unsigned int x, int log2n) {
     int n = 0;
-    int mask = 0x1;
     for (int i = 0; i < log2n; i++) {
         n <<= 1;
         n |= (x & 1);
@@ -48,7 +47,7 @@ void fft(Iter_T a, Iter_T b, int log2n) {
 
 void fft(std::shared_ptr<SampleData> sample) {
     int N = 4096;          // size of FFT and sample window
-    float Fs = 44100;        // sample rate = 44.1 kHz
+    //float Fs = 44100;        // sample rate = 44.1 kHz
     float data[N];           // input PCM data buffer
     typedef complex<double> cx;
     cx a[N];        // FFT complex buffer (interleaved real/imag)
