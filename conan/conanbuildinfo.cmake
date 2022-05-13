@@ -73,6 +73,44 @@ conan_find_apple_frameworks(CONAN_FRAMEWORKS_FOUND_NLOHMANN_JSON "${CONAN_FRAMEW
 set(CONAN_LIBS_NLOHMANN_JSON ${CONAN_PKG_LIBS_NLOHMANN_JSON} ${CONAN_SYSTEM_LIBS_NLOHMANN_JSON} ${CONAN_FRAMEWORKS_FOUND_NLOHMANN_JSON})
 
 
+#################
+###  PLOG
+#################
+set(CONAN_PLOG_ROOT "/home/ivanb/.conan/data/plog/1.1.5/_/_/package/5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9")
+set(CONAN_INCLUDE_DIRS_PLOG "/home/ivanb/.conan/data/plog/1.1.5/_/_/package/5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9/include")
+set(CONAN_LIB_DIRS_PLOG )
+set(CONAN_BIN_DIRS_PLOG )
+set(CONAN_RES_DIRS_PLOG )
+set(CONAN_SRC_DIRS_PLOG )
+set(CONAN_BUILD_DIRS_PLOG "/home/ivanb/.conan/data/plog/1.1.5/_/_/package/5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9/")
+set(CONAN_FRAMEWORK_DIRS_PLOG )
+set(CONAN_LIBS_PLOG )
+set(CONAN_PKG_LIBS_PLOG )
+set(CONAN_SYSTEM_LIBS_PLOG )
+set(CONAN_FRAMEWORKS_PLOG )
+set(CONAN_FRAMEWORKS_FOUND_PLOG "")  # Will be filled later
+set(CONAN_DEFINES_PLOG )
+set(CONAN_BUILD_MODULES_PATHS_PLOG )
+# COMPILE_DEFINITIONS are equal to CONAN_DEFINES without -D, for targets
+set(CONAN_COMPILE_DEFINITIONS_PLOG )
+
+set(CONAN_C_FLAGS_PLOG "")
+set(CONAN_CXX_FLAGS_PLOG "")
+set(CONAN_SHARED_LINKER_FLAGS_PLOG "")
+set(CONAN_EXE_LINKER_FLAGS_PLOG "")
+
+# For modern cmake targets we use the list variables (separated with ;)
+set(CONAN_C_FLAGS_PLOG_LIST "")
+set(CONAN_CXX_FLAGS_PLOG_LIST "")
+set(CONAN_SHARED_LINKER_FLAGS_PLOG_LIST "")
+set(CONAN_EXE_LINKER_FLAGS_PLOG_LIST "")
+
+# Apple Frameworks
+conan_find_apple_frameworks(CONAN_FRAMEWORKS_FOUND_PLOG "${CONAN_FRAMEWORKS_PLOG}" "_PLOG" "")
+# Append to aggregated values variable
+set(CONAN_LIBS_PLOG ${CONAN_PKG_LIBS_PLOG} ${CONAN_SYSTEM_LIBS_PLOG} ${CONAN_FRAMEWORKS_FOUND_PLOG})
+
+
 ### Definition of global aggregated variables ###
 
 set(CONAN_PACKAGE_NAME None)
@@ -82,12 +120,12 @@ set(CONAN_SETTINGS_ARCH "x86_64")
 set(CONAN_SETTINGS_ARCH_BUILD "x86_64")
 set(CONAN_SETTINGS_BUILD_TYPE "Release")
 set(CONAN_SETTINGS_COMPILER "gcc")
-set(CONAN_SETTINGS_COMPILER_LIBCXX "libstdc++")
+set(CONAN_SETTINGS_COMPILER_LIBCXX "libstdc++11")
 set(CONAN_SETTINGS_COMPILER_VERSION "11")
 set(CONAN_SETTINGS_OS "Linux")
 set(CONAN_SETTINGS_OS_BUILD "Linux")
 
-set(CONAN_DEPENDENCIES nlohmann_json)
+set(CONAN_DEPENDENCIES nlohmann_json plog)
 # Storing original command line args (CMake helper) flags
 set(CONAN_CMD_CXX_FLAGS ${CONAN_CXX_FLAGS})
 
@@ -95,7 +133,8 @@ set(CONAN_CMD_SHARED_LINKER_FLAGS ${CONAN_SHARED_LINKER_FLAGS})
 set(CONAN_CMD_C_FLAGS ${CONAN_C_FLAGS})
 # Defining accumulated conan variables for all deps
 
-set(CONAN_INCLUDE_DIRS "/home/ivanb/.conan/data/nlohmann_json/3.10.5/_/_/package/5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9/include" ${CONAN_INCLUDE_DIRS})
+set(CONAN_INCLUDE_DIRS "/home/ivanb/.conan/data/nlohmann_json/3.10.5/_/_/package/5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9/include"
+			"/home/ivanb/.conan/data/plog/1.1.5/_/_/package/5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9/include" ${CONAN_INCLUDE_DIRS})
 set(CONAN_LIB_DIRS  ${CONAN_LIB_DIRS})
 set(CONAN_BIN_DIRS  ${CONAN_BIN_DIRS})
 set(CONAN_RES_DIRS  ${CONAN_RES_DIRS})
@@ -107,7 +146,8 @@ set(CONAN_FRAMEWORKS  ${CONAN_FRAMEWORKS})
 set(CONAN_FRAMEWORKS_FOUND "")  # Will be filled later
 set(CONAN_DEFINES  ${CONAN_DEFINES})
 set(CONAN_BUILD_MODULES_PATHS  ${CONAN_BUILD_MODULES_PATHS})
-set(CONAN_CMAKE_MODULE_PATH "/home/ivanb/.conan/data/nlohmann_json/3.10.5/_/_/package/5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9/" ${CONAN_CMAKE_MODULE_PATH})
+set(CONAN_CMAKE_MODULE_PATH "/home/ivanb/.conan/data/nlohmann_json/3.10.5/_/_/package/5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9/"
+			"/home/ivanb/.conan/data/plog/1.1.5/_/_/package/5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9/" ${CONAN_CMAKE_MODULE_PATH})
 
 set(CONAN_CXX_FLAGS " ${CONAN_CXX_FLAGS}")
 set(CONAN_SHARED_LINKER_FLAGS " ${CONAN_SHARED_LINKER_FLAGS}")
@@ -200,7 +240,77 @@ macro(conan_define_targets)
                                                                   $<$<CONFIG:MinSizeRel>:${CONAN_C_FLAGS_NLOHMANN_JSON_MINSIZEREL_LIST} ${CONAN_CXX_FLAGS_NLOHMANN_JSON_MINSIZEREL_LIST}>
                                                                   $<$<CONFIG:Debug>:${CONAN_C_FLAGS_NLOHMANN_JSON_DEBUG_LIST}  ${CONAN_CXX_FLAGS_NLOHMANN_JSON_DEBUG_LIST}>)
 
-    set(CONAN_TARGETS CONAN_PKG::nlohmann_json)
+
+    set(_CONAN_PKG_LIBS_PLOG_DEPENDENCIES "${CONAN_SYSTEM_LIBS_PLOG} ${CONAN_FRAMEWORKS_FOUND_PLOG} ")
+    string(REPLACE " " ";" _CONAN_PKG_LIBS_PLOG_DEPENDENCIES "${_CONAN_PKG_LIBS_PLOG_DEPENDENCIES}")
+    conan_package_library_targets("${CONAN_PKG_LIBS_PLOG}" "${CONAN_LIB_DIRS_PLOG}"
+                                  CONAN_PACKAGE_TARGETS_PLOG "${_CONAN_PKG_LIBS_PLOG_DEPENDENCIES}"
+                                  "" plog)
+    set(_CONAN_PKG_LIBS_PLOG_DEPENDENCIES_DEBUG "${CONAN_SYSTEM_LIBS_PLOG_DEBUG} ${CONAN_FRAMEWORKS_FOUND_PLOG_DEBUG} ")
+    string(REPLACE " " ";" _CONAN_PKG_LIBS_PLOG_DEPENDENCIES_DEBUG "${_CONAN_PKG_LIBS_PLOG_DEPENDENCIES_DEBUG}")
+    conan_package_library_targets("${CONAN_PKG_LIBS_PLOG_DEBUG}" "${CONAN_LIB_DIRS_PLOG_DEBUG}"
+                                  CONAN_PACKAGE_TARGETS_PLOG_DEBUG "${_CONAN_PKG_LIBS_PLOG_DEPENDENCIES_DEBUG}"
+                                  "debug" plog)
+    set(_CONAN_PKG_LIBS_PLOG_DEPENDENCIES_RELEASE "${CONAN_SYSTEM_LIBS_PLOG_RELEASE} ${CONAN_FRAMEWORKS_FOUND_PLOG_RELEASE} ")
+    string(REPLACE " " ";" _CONAN_PKG_LIBS_PLOG_DEPENDENCIES_RELEASE "${_CONAN_PKG_LIBS_PLOG_DEPENDENCIES_RELEASE}")
+    conan_package_library_targets("${CONAN_PKG_LIBS_PLOG_RELEASE}" "${CONAN_LIB_DIRS_PLOG_RELEASE}"
+                                  CONAN_PACKAGE_TARGETS_PLOG_RELEASE "${_CONAN_PKG_LIBS_PLOG_DEPENDENCIES_RELEASE}"
+                                  "release" plog)
+    set(_CONAN_PKG_LIBS_PLOG_DEPENDENCIES_RELWITHDEBINFO "${CONAN_SYSTEM_LIBS_PLOG_RELWITHDEBINFO} ${CONAN_FRAMEWORKS_FOUND_PLOG_RELWITHDEBINFO} ")
+    string(REPLACE " " ";" _CONAN_PKG_LIBS_PLOG_DEPENDENCIES_RELWITHDEBINFO "${_CONAN_PKG_LIBS_PLOG_DEPENDENCIES_RELWITHDEBINFO}")
+    conan_package_library_targets("${CONAN_PKG_LIBS_PLOG_RELWITHDEBINFO}" "${CONAN_LIB_DIRS_PLOG_RELWITHDEBINFO}"
+                                  CONAN_PACKAGE_TARGETS_PLOG_RELWITHDEBINFO "${_CONAN_PKG_LIBS_PLOG_DEPENDENCIES_RELWITHDEBINFO}"
+                                  "relwithdebinfo" plog)
+    set(_CONAN_PKG_LIBS_PLOG_DEPENDENCIES_MINSIZEREL "${CONAN_SYSTEM_LIBS_PLOG_MINSIZEREL} ${CONAN_FRAMEWORKS_FOUND_PLOG_MINSIZEREL} ")
+    string(REPLACE " " ";" _CONAN_PKG_LIBS_PLOG_DEPENDENCIES_MINSIZEREL "${_CONAN_PKG_LIBS_PLOG_DEPENDENCIES_MINSIZEREL}")
+    conan_package_library_targets("${CONAN_PKG_LIBS_PLOG_MINSIZEREL}" "${CONAN_LIB_DIRS_PLOG_MINSIZEREL}"
+                                  CONAN_PACKAGE_TARGETS_PLOG_MINSIZEREL "${_CONAN_PKG_LIBS_PLOG_DEPENDENCIES_MINSIZEREL}"
+                                  "minsizerel" plog)
+
+    add_library(CONAN_PKG::plog INTERFACE IMPORTED)
+
+    # Property INTERFACE_LINK_FLAGS do not work, necessary to add to INTERFACE_LINK_LIBRARIES
+    set_property(TARGET CONAN_PKG::plog PROPERTY INTERFACE_LINK_LIBRARIES ${CONAN_PACKAGE_TARGETS_PLOG} ${_CONAN_PKG_LIBS_PLOG_DEPENDENCIES}
+                                                                 $<$<STREQUAL:$<TARGET_PROPERTY:TYPE>,SHARED_LIBRARY>:${CONAN_SHARED_LINKER_FLAGS_PLOG_LIST}>
+                                                                 $<$<STREQUAL:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY>:${CONAN_SHARED_LINKER_FLAGS_PLOG_LIST}>
+                                                                 $<$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>:${CONAN_EXE_LINKER_FLAGS_PLOG_LIST}>
+
+                                                                 $<$<CONFIG:Release>:${CONAN_PACKAGE_TARGETS_PLOG_RELEASE} ${_CONAN_PKG_LIBS_PLOG_DEPENDENCIES_RELEASE}
+                                                                 $<$<STREQUAL:$<TARGET_PROPERTY:TYPE>,SHARED_LIBRARY>:${CONAN_SHARED_LINKER_FLAGS_PLOG_RELEASE_LIST}>
+                                                                 $<$<STREQUAL:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY>:${CONAN_SHARED_LINKER_FLAGS_PLOG_RELEASE_LIST}>
+                                                                 $<$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>:${CONAN_EXE_LINKER_FLAGS_PLOG_RELEASE_LIST}>>
+
+                                                                 $<$<CONFIG:RelWithDebInfo>:${CONAN_PACKAGE_TARGETS_PLOG_RELWITHDEBINFO} ${_CONAN_PKG_LIBS_PLOG_DEPENDENCIES_RELWITHDEBINFO}
+                                                                 $<$<STREQUAL:$<TARGET_PROPERTY:TYPE>,SHARED_LIBRARY>:${CONAN_SHARED_LINKER_FLAGS_PLOG_RELWITHDEBINFO_LIST}>
+                                                                 $<$<STREQUAL:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY>:${CONAN_SHARED_LINKER_FLAGS_PLOG_RELWITHDEBINFO_LIST}>
+                                                                 $<$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>:${CONAN_EXE_LINKER_FLAGS_PLOG_RELWITHDEBINFO_LIST}>>
+
+                                                                 $<$<CONFIG:MinSizeRel>:${CONAN_PACKAGE_TARGETS_PLOG_MINSIZEREL} ${_CONAN_PKG_LIBS_PLOG_DEPENDENCIES_MINSIZEREL}
+                                                                 $<$<STREQUAL:$<TARGET_PROPERTY:TYPE>,SHARED_LIBRARY>:${CONAN_SHARED_LINKER_FLAGS_PLOG_MINSIZEREL_LIST}>
+                                                                 $<$<STREQUAL:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY>:${CONAN_SHARED_LINKER_FLAGS_PLOG_MINSIZEREL_LIST}>
+                                                                 $<$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>:${CONAN_EXE_LINKER_FLAGS_PLOG_MINSIZEREL_LIST}>>
+
+                                                                 $<$<CONFIG:Debug>:${CONAN_PACKAGE_TARGETS_PLOG_DEBUG} ${_CONAN_PKG_LIBS_PLOG_DEPENDENCIES_DEBUG}
+                                                                 $<$<STREQUAL:$<TARGET_PROPERTY:TYPE>,SHARED_LIBRARY>:${CONAN_SHARED_LINKER_FLAGS_PLOG_DEBUG_LIST}>
+                                                                 $<$<STREQUAL:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY>:${CONAN_SHARED_LINKER_FLAGS_PLOG_DEBUG_LIST}>
+                                                                 $<$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>:${CONAN_EXE_LINKER_FLAGS_PLOG_DEBUG_LIST}>>)
+    set_property(TARGET CONAN_PKG::plog PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CONAN_INCLUDE_DIRS_PLOG}
+                                                                      $<$<CONFIG:Release>:${CONAN_INCLUDE_DIRS_PLOG_RELEASE}>
+                                                                      $<$<CONFIG:RelWithDebInfo>:${CONAN_INCLUDE_DIRS_PLOG_RELWITHDEBINFO}>
+                                                                      $<$<CONFIG:MinSizeRel>:${CONAN_INCLUDE_DIRS_PLOG_MINSIZEREL}>
+                                                                      $<$<CONFIG:Debug>:${CONAN_INCLUDE_DIRS_PLOG_DEBUG}>)
+    set_property(TARGET CONAN_PKG::plog PROPERTY INTERFACE_COMPILE_DEFINITIONS ${CONAN_COMPILE_DEFINITIONS_PLOG}
+                                                                      $<$<CONFIG:Release>:${CONAN_COMPILE_DEFINITIONS_PLOG_RELEASE}>
+                                                                      $<$<CONFIG:RelWithDebInfo>:${CONAN_COMPILE_DEFINITIONS_PLOG_RELWITHDEBINFO}>
+                                                                      $<$<CONFIG:MinSizeRel>:${CONAN_COMPILE_DEFINITIONS_PLOG_MINSIZEREL}>
+                                                                      $<$<CONFIG:Debug>:${CONAN_COMPILE_DEFINITIONS_PLOG_DEBUG}>)
+    set_property(TARGET CONAN_PKG::plog PROPERTY INTERFACE_COMPILE_OPTIONS ${CONAN_C_FLAGS_PLOG_LIST} ${CONAN_CXX_FLAGS_PLOG_LIST}
+                                                                  $<$<CONFIG:Release>:${CONAN_C_FLAGS_PLOG_RELEASE_LIST} ${CONAN_CXX_FLAGS_PLOG_RELEASE_LIST}>
+                                                                  $<$<CONFIG:RelWithDebInfo>:${CONAN_C_FLAGS_PLOG_RELWITHDEBINFO_LIST} ${CONAN_CXX_FLAGS_PLOG_RELWITHDEBINFO_LIST}>
+                                                                  $<$<CONFIG:MinSizeRel>:${CONAN_C_FLAGS_PLOG_MINSIZEREL_LIST} ${CONAN_CXX_FLAGS_PLOG_MINSIZEREL_LIST}>
+                                                                  $<$<CONFIG:Debug>:${CONAN_C_FLAGS_PLOG_DEBUG_LIST}  ${CONAN_CXX_FLAGS_PLOG_DEBUG_LIST}>)
+
+    set(CONAN_TARGETS CONAN_PKG::nlohmann_json CONAN_PKG::plog)
 
 endmacro()
 

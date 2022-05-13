@@ -1,5 +1,6 @@
 [includedirs]
 /home/ivanb/.conan/data/nlohmann_json/3.10.5/_/_/package/5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9/include
+/home/ivanb/.conan/data/plog/1.1.5/_/_/package/5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9/include
 
 [libdirs]
 
@@ -12,6 +13,7 @@
 
 [builddirs]
 /home/ivanb/.conan/data/nlohmann_json/3.10.5/_/_/package/5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9/
+/home/ivanb/.conan/data/plog/1.1.5/_/_/package/5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9/
 
 [libs]
 
@@ -113,5 +115,71 @@ pkg_config=nlohmann_json
 
 
 
+[includedirs_plog]
+/home/ivanb/.conan/data/plog/1.1.5/_/_/package/5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9/include
+
+[libdirs_plog]
+
+
+[bindirs_plog]
+
+
+[resdirs_plog]
+
+
+[builddirs_plog]
+/home/ivanb/.conan/data/plog/1.1.5/_/_/package/5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9/
+
+[libs_plog]
+
+
+[system_libs_plog]
+
+
+[defines_plog]
+
+
+[cppflags_plog]
+
+
+[cxxflags_plog]
+
+
+[cflags_plog]
+
+
+[sharedlinkflags_plog]
+
+
+[exelinkflags_plog]
+
+
+[sysroot_plog]
+
+
+[frameworks_plog]
+
+
+[frameworkdirs_plog]
+
+
+[rootpath_plog]
+/home/ivanb/.conan/data/plog/1.1.5/_/_/package/5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9
+
+[name_plog]
+plog
+
+[version_plog]
+1.1.5
+
+[generatornames_plog]
+
+
+[generatorfilenames_plog]
+
+
+
 [USER_nlohmann_json]
+[USER_plog]
 [ENV_nlohmann_json]
+[ENV_plog]
