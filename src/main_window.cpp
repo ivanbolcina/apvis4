@@ -108,6 +108,7 @@ void MainWindow::update_image() {
 }
 
 bool MainWindow::update(int id) {
+    state.read();
     vu->tick();
     auto list = vu->get();
     auto cnt = 0;
@@ -115,7 +116,7 @@ bool MainWindow::update(int id) {
         pbChannel[cnt++]->set_fraction(itm->fraction);
         if (cnt == 2) break;
     }
-    state.read();
+    vu->getSample()->volume_in_decibels=state.volume_in_decibels;
     lSongTitle->set_label(state.song_name);
     if (state.song_name!="" && sStack->get_visible_child_name()!="pDisplay"){
         sStack->set_visible_child("pDisplay");

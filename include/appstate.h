@@ -52,6 +52,10 @@ struct AppState {
 
     ///recalculate progress
     void update_progres();
+
+    ///volume in decibels
+    double volume_in_decibels;
+
 };
 
 ///Variable with global application state

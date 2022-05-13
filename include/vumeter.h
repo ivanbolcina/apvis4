@@ -24,6 +24,7 @@ public:
     std::vector<float> freq;
     int lenght;
     int channels;
+    double volume_in_decibels;
     void addData(const float *d, unsigned samples);
 };
 

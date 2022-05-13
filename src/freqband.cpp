@@ -53,8 +53,13 @@ void fft(std::shared_ptr<SampleData> sample) {
     cx a[N];        // FFT complex buffer (interleaved real/imag)
     cx b[N];
     //get data
+    auto volume=sample->volume_in_decibels;
+    if (volume>0.0) volume>0;
+    if (volume<-30.0) volume=-30.0;
+    auto power=pow(10,(volume/10.0));
     for (int i = 0; i < N; i++) {
         data[i] = sample->data[i];
+        data[i]/=power;
     }
     //window function
     for (int i = 0; i < N; i++) {

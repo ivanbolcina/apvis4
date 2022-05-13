@@ -35,7 +35,7 @@ constexpr uint32_t _asar=1634951538;
 constexpr uint32_t _ascm=1634952045;
 constexpr uint32_t _minm=1835626093;
 constexpr uint32_t _PICT=1346978644;
-
+constexpr uint32_t _VOLU=1886809964;
 
 void MetaReader::fill_from(string item, AppState *state) {
 
@@ -107,6 +107,25 @@ void MetaReader::fill_from(string item, AppState *state) {
                             state->progress = 0.0f;
                     } else state->progress = 0.0f;
                 }
+                break;
+            case _VOLU: {
+                PLOG_INFO << "volume:" << payload;
+                string s = payload;
+                string delimiter = ",";
+                size_t pos = 0;
+                std::string token;
+                double vals[3];
+                int vcnt = 0;
+                while ((pos = s.find(delimiter)) != std::string::npos) {
+                    token = s.substr(0, pos);
+                    PLOG_INFO << "progress token:" << token;
+                    vals[vcnt++] = atof(token.c_str());
+                    s.erase(0, pos + delimiter.length());
+                }
+                if (vcnt == 3) {
+                    state->volume_in_decibels=vals[0];
+                }
+            }
                 break;
             case _prsm:
                 state->playing = true;
