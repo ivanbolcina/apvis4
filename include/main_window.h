@@ -10,9 +10,7 @@ class VU;
 class AlbumArt;
 class FrequencyBand;
 
-/**
- * Displays main window
- */
+///Displays main window
 class MainWindow : public Gtk::Window
 {
 public:
