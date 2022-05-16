@@ -105,6 +105,7 @@ void MainWindow::update_image() {
     int w = gdk_pixbuf_get_width(pixbuf);
     int h = gdk_pixbuf_get_height(pixbuf);
     albumart.load_image(reinterpret_cast<const char *>(data), w, h);
+    this->glAlbum->queue_render();
 }
 
 bool MainWindow::update(int id) {

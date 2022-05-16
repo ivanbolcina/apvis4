@@ -28,6 +28,8 @@ public:
 protected:
     ///target OpenGL area where graphics is rendered
     Gtk::GLArea *area{nullptr};
+    int width;
+    int height;
 
     ///vertex array buffer
     GLuint m_Buffer {0};
