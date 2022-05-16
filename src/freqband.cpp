@@ -56,7 +56,7 @@ void fft(std::shared_ptr<SampleData> sample) {
     auto volume=sample->volume_in_decibels;
     if (volume>0.0) volume>0;
     if (volume<-30.0) volume=-30.0;
-    auto power=pow(10,(volume/10.0));
+    auto power=pow(10,(volume/30.0));
     for (int i = 0; i < N; i++) {
         data[i] = sample->data[i];
         data[i]/=power;
