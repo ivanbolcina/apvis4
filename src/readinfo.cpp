@@ -163,7 +163,7 @@ void MetaReader::fill_from(string item, AppState *state) {
                 break;
             case _PICT:
                 {
-                    PLOG_INFO <<"****************************************picture";
+                    PLOG_INFO <<"picture";
                     if (outputlength>2000) {
                         state->image_id = 0;
                         state->image.clear();
