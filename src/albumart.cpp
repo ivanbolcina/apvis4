@@ -25,7 +25,7 @@ void AlbumArt::resize(const int w,const int h){
     area->make_current();
     //width = area->get_allocated_width();
     //height = area->get_allocated_height();
-    //area->queue_render();
+    area->queue_render();
     cout<<"resized"<<endl;
 }
 
@@ -210,6 +210,7 @@ void AlbumArt::draw_rectangle()
 }
 
 void AlbumArt::load_image(const char * data,int width,int height){
+    area->make_current();
     if (m_Texture){
         glBindTexture(GL_TEXTURE_2D, 0);
         glDeleteTextures(1,&m_Texture);
