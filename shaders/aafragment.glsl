@@ -1,3 +1,4 @@
+#version 150
 uniform sampler2D texture;
 varying vec4 texc;
 uniform int texturePresent = 1;
@@ -21,9 +22,9 @@ void main(void)
         for (i=0;i<10;i++){
             for (j=0;j<10;j++){
               //weight
-              float w=5-abs((float)(i-5))+5-abs((float)(j-5));
+              float w=5-abs(i-5)+5-abs(j-5);
               //angle point
-              float angle2=(float)(i-5);
+              float angle2=i-5;
               angle2=angle2/200.0;
               angle2=angle2+angle;
               //vector 

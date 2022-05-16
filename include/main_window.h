@@ -21,7 +21,7 @@ public:
     void onSettings();
 private:
     void update_image();
-    int image_id{0};
+    uint64_t image_id{0};
     Glib::RefPtr<Gtk::Builder> builder;
 	Gtk::Button *buttonClose;
     Gtk::Label *lSongTitle;

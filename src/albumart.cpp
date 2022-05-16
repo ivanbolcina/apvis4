@@ -14,9 +14,15 @@ static const GLfloat vertex_data[] = {
 
 void AlbumArt::setGlArea(Gtk::GLArea *area) {
     this->area=area;
+    area->signal_resize().connect(sigc::mem_fun(*this,&AlbumArt::resize));
     area->signal_realize().connect(sigc::mem_fun(*this, &AlbumArt::realize));
     area->signal_unrealize().connect(sigc::mem_fun(*this, &AlbumArt::unrealize), false);
     area->signal_render().connect(sigc::mem_fun(*this, &AlbumArt::render), false);
+}
+
+void AlbumArt::resize(const int w,const int h){
+    area->make_current();
+    cout<<"resized"<<endl;
 }
 
 void AlbumArt::realize()

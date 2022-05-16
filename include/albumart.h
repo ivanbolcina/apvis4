@@ -64,6 +64,10 @@ protected:
 
     ///initializes shaders
     void init_shaders(const std::string& vertex_path, const std::string& fragment_path);
+
+    //on resize handle event
+    void resize(const int w,const int h);
+
 };
 
 #endif //ALBUMART_H

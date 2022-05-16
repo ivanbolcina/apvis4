@@ -162,12 +162,16 @@ void MetaReader::fill_from(string item, AppState *state) {
                 state->song_name = payload;
                 break;
             case _PICT:
-                PLOG_INFO <<"picture";
-                fflush(stdout);
-                state->image_id++;
-                state->image.clear();
-                state->image.reserve(outputlength);
-                std::copy(payload, payload + outputlength, std::back_inserter(state->image));
+                {
+                    PLOG_INFO <<"****************************************picture";
+                    if (outputlength>2000) {
+                        state->image_id = 0;
+                        state->image.clear();
+                        state->image.reserve(outputlength);
+                        std::copy(payload, payload + outputlength, std::back_inserter(state->image));
+                        for (int i = 0; i < 2000 && i < outputlength; i++) state->image_id += payload[i];
+                    }
+                }
                 break;
         }
         free(payload);

@@ -12,7 +12,7 @@ struct AppState {
     AppState() = default;
 
     ///id of image
-    int image_id;
+    uint64_t image_id;
 
     ///id of track
     uint64_t id;
@@ -55,6 +55,8 @@ struct AppState {
 
     ///volume in decibels
     double volume_in_decibels;
+
+    int image_to_be_set;
 
 };
 
