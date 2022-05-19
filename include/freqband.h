@@ -78,5 +78,10 @@ protected:
 
     ///raw sound data
     std::shared_ptr<SampleData> sample{nullptr};
+
+    ///
+    int width{0};
+
+    int height{0};
 };
 #endif //FREQBAND_H

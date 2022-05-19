@@ -128,6 +128,23 @@ bool MainWindow::update(int id) {
     pbProgress->set_fraction(state.progress);
     update_image();
     this->glSpectre->queue_render();
+    this->glAlbum->queue_render();
+//    if (albumart.resized==999){
+//        auto glpar=dynamic_cast<Gtk::Box*>(glAlbum->get_parent());
+//        glpar->remove(*glAlbum);
+//        delete glAlbum;
+//        glAlbum=new Gtk::GLArea();
+//        glAlbum->set_size_request(500,500);
+//        glAlbum->set_use_es(true);
+//        glAlbum->set_has_alpha(true);
+//        glAlbum->set_has_depth_buffer(true);
+//        glAlbum->set_has_stencil_buffer(false);
+//        glAlbum->set_auto_render(false);
+//        glAlbum->set_visible(true);
+//        glpar->pack_start(*glAlbum,true,true,0);
+//        albumart.setGlArea(glAlbum);
+//        albumart.resized= false;
+//    }
     return true;
 }
 

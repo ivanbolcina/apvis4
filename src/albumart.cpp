@@ -19,12 +19,10 @@ void AlbumArt::setGlArea(Gtk::GLArea *area) {
     area->signal_realize().connect(sigc::mem_fun(*this, &AlbumArt::realize));
     area->signal_unrealize().connect(sigc::mem_fun(*this, &AlbumArt::unrealize), false);
     area->signal_render().connect(sigc::mem_fun(*this, &AlbumArt::render), false);
+    area->queue_render();
 }
 
 void AlbumArt::resize(const int w,const int h){
-    area->make_current();
-    //width = area->get_allocated_width();
-    //height = area->get_allocated_height();
     area->queue_render();
     cout<<"resized"<<endl;
 }
@@ -192,8 +190,8 @@ void AlbumArt::draw_rectangle()
     glUseProgram(m_Program);
     glUniformMatrix4fv(m_Mvp, 1, GL_FALSE, &mvp[0]);
     glUniform1i(m_TexturePresent,(m_Texture!=0?1:0));
-    width = area->get_allocated_width();
-    height = area->get_allocated_height();
+    int width = area->get_allocated_width();
+    int height = area->get_allocated_height();
     int side = min(width, height);
     glViewport((width - side) , (height - side) , 2*side, 2*side);
     glBindBuffer(GL_ARRAY_BUFFER, m_Buffer);

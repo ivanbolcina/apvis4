@@ -25,11 +25,11 @@ public:
 
     ///pushes data inside widget
     void load_image(const char * data,int width,int height);
+
 protected:
     ///target OpenGL area where graphics is rendered
     Gtk::GLArea *area{nullptr};
-    int width;
-    int height;
+
 
     ///vertex array buffer
     GLuint m_Buffer {0};

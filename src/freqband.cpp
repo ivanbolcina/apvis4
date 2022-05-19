@@ -137,10 +137,16 @@ void FrequencyBand::setGlArea(Gtk::GLArea *area) {
     area->signal_realize().connect(sigc::mem_fun(*this, &FrequencyBand::realize));
     area->signal_unrealize().connect(sigc::mem_fun(*this, &FrequencyBand::unrealize), false);
     area->signal_render().connect(sigc::mem_fun(*this, &FrequencyBand::render), false);
+    width = area->get_width();
+    height = area->get_height();
 }
 
 void FrequencyBand::resize(const int w,const int h){
-    area->make_current();
+  //  area->make_current();
+   // unrealize();
+   // realize();
+    width = area->get_width();
+    height = area->get_height();
     cout<<"resized"<<endl;
 }
 
@@ -176,8 +182,14 @@ void FrequencyBand::unrealize() {
             m_Texture = 0;
         }
         // Delete buffers and program
-        glDeleteBuffers(1, &m_Buffer);
-        glDeleteProgram(m_Program);
+        if (m_Buffer) {
+            glDeleteBuffers(1, &m_Buffer);
+            m_Buffer = 0;
+        }
+        if (m_Program) {
+            glDeleteProgram(m_Program);
+            m_Program=0;
+        }
     }
     catch (const Gdk::GLError &gle) {
         cerr << "An error occured making the context current during unrealize" << endl;
@@ -318,8 +330,8 @@ void FrequencyBand::draw_rectangle() {
     glUseProgram(m_Program);
     glUniformMatrix4fv(m_Mvp, 1, GL_FALSE, &mvp[0]);
     glUniform1i(m_TexturePresent, (m_Texture != 0 ? 1 : 0));
-    int width = area->get_width();
-    int height = area->get_height();
+    //int width = area->get_width();
+    //int height = area->get_height();
     int side = min(width, height);
     glViewport((width - side), (height - side), 2 * side, 2 * side);
     glBindBuffer(GL_ARRAY_BUFFER, m_Buffer);
