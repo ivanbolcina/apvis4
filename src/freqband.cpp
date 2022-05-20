@@ -2,13 +2,14 @@
 #include <cmath>
 #include <complex>
 #include <iterator>
+#include <plog/Log.h>
 #include "freqband.h"
 #include "vumeter.h"
 #include "utils.h"
 
 using namespace std;
 const double PI = 3.1415926536;
-#define TEXSIZE (1024)
+#define TEXSIZE (32)
 
 unsigned int bitReverse(unsigned int x, int log2n) {
     int n = 0;
@@ -54,7 +55,7 @@ void fft(std::shared_ptr<SampleData> sample) {
     cx b[N];
     //get data
     auto volume=sample->volume_in_decibels;
-    if (volume>0.0) volume>0;
+    if (volume>0.0) volume=0;
     if (volume<-30.0) volume=-30.0;
     auto power=pow(10,(volume/30.0));
     for (int i = 0; i < N; i++) {
@@ -142,12 +143,8 @@ void FrequencyBand::setGlArea(Gtk::GLArea *area) {
 }
 
 void FrequencyBand::resize(const int w,const int h){
-  //  area->make_current();
-   // unrealize();
-   // realize();
     width = area->get_width();
     height = area->get_height();
-    cout<<"resized"<<endl;
 }
 
 void FrequencyBand::realize() {
@@ -162,13 +159,14 @@ void FrequencyBand::realize() {
 
         glGenTextures(1, &m_Texture);
         glBindTexture(GL_TEXTURE_2D, m_Texture);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, TEXSIZE, TEXSIZE, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
         glGenerateMipmap(GL_TEXTURE_2D);
 
     }
     catch (const Gdk::GLError &gle) {
-        cerr << "An error occured making the context current during realize:" << endl;
-        cerr << gle.domain() << "-" << gle.code() << "-" << gle.what() << endl;
+        PLOG_ERROR << "An error occured making the context current during realize:" <<   to_string(gle.domain()) << "-" << to_string(gle.code()) << "-" << gle.what().c_str();
     }
 }
 
@@ -192,8 +190,7 @@ void FrequencyBand::unrealize() {
         }
     }
     catch (const Gdk::GLError &gle) {
-        cerr << "An error occured making the context current during unrealize" << endl;
-        cerr << gle.domain() << "-" << gle.code() << "-" << gle.what() << endl;
+        PLOG_ERROR << "An error occured making the context current during unrealize:" <<   to_string(gle.domain()) << "-" << to_string(gle.code()) << "-" << gle.what().c_str();
     }
 }
 
@@ -208,8 +205,7 @@ bool FrequencyBand::render(const Glib::RefPtr<Gdk::GLContext> & /* context */) {
         return true;
     }
     catch (const Gdk::GLError &gle) {
-        cerr << "An error occurred in the render callback of the GLArea" << endl;
-        cerr << gle.domain() << "-" << gle.code() << "-" << gle.what() << endl;
+        PLOG_ERROR << "An error occured making the context current during render callbakc:" <<   to_string(gle.domain()) << "-" << to_string(gle.code()) << "-" << gle.what().c_str();
         return false;
     }
 }
@@ -305,13 +301,14 @@ void FrequencyBand::prepare_texture() {
     }
     if (sample != nullptr && sample->lenght != 0) {
         fft(sample);
+        auto fillcolor=(0 << 24) + (180 << 16) + (180 << 8) + 180;
         for (int i = 0; i < TEXSIZE; i++) {
             int cnt = i;
             int y = 0;
             if (cnt < sample->freq.size()) y = (TEXSIZE - 1) * fabs(sample->freq[cnt]);
             for (int j = 0; j < y; j++) {
                 int pos = j * TEXSIZE + i;
-                data[pos] = (0 << 24) + (180 << 16) + (180 << 8) + 180;
+                data[pos] = fillcolor;
             }
         }
     }

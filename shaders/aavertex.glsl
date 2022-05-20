@@ -1,4 +1,4 @@
-#version 150
+#version 400
 attribute  vec4 vertex;
 attribute  vec4 texCoord;
 varying vec4 texc;

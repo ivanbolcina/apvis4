@@ -89,7 +89,6 @@
                         <property name="can-focus">False</property>
                         <property name="has-alpha">True</property>
                         <property name="has-depth-buffer">True</property>
-                        <property name="use-es">True</property>
                         <property name="auto-render">False</property>
                       </object>
                       <packing>
@@ -291,7 +290,6 @@
                             <property name="vexpand">True</property>
                             <property name="has-alpha">True</property>
                             <property name="has-depth-buffer">True</property>
-                            <property name="use-es">True</property>
                             <property name="auto-render">False</property>
                           </object>
                           <packing>

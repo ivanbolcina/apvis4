@@ -1,4 +1,4 @@
-#version 150
+#version 400
 uniform sampler2D texture;
 varying vec4 texc;
 uniform int texturePresent = 1;
